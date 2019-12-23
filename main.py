@@ -12,13 +12,13 @@ def main():
     # http_respone 200 means OK status
     if resp.status_code == 200:
         print("Successfully opened the web page")
-        print("The news are as follow :-\n")
+        print("The ranking is as following:-\n")
 
         # we need a parser,Python built-in HTML parser is enough .
         soup = BeautifulSoup(resp.text, "html.parser")
 
         # l is the list which contains all the text i.e news
-        l = soup.find("ul", {"class": "searchNews"})
+        l = soup.find("table")
 
         # now we want to print only the text part of the anchor.
         # find all the elements of a, i.e anchor

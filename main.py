@@ -1,29 +1,67 @@
 import requests
 from bs4 import BeautifulSoup
 
+schachten = [
+    "alex",
+    "amber",
+    "anna",
+    "bram a",
+    "bram b",
+    "brecht",
+    "fabio",
+    "gijs",
+    "glen",
+    "jimmy",
+    "katrien",
+    "kobe",
+    "kristof",
+    "lies",
+    "lode",
+    "louis",
+    "maja",
+    "marie",
+    "martijn",
+    "michiel c",
+    "michiel l",
+    "nathan",
+    "nicholas",
+    "pieter",
+    "pieter-jan",
+    "jurre",
+    "quinten",
+    "robbe",
+    "robin",
+    "seppe",
+    "sophie",
+    "stan",
+    "stef",
+    "tom c",
+    "tom g",
+    "toon j",
+    "toon l",
+    "yarne",
+]
+
 
 def main():
-    # the target we want to open
-    url = "http://filii.be/pledgeboard/ranking.php"
 
-    # open with GET method
+    url = "http://filii.be/pledgeboard/index.php"
     resp = requests.get(url)
 
-    # http_respone 200 means OK status
+    # http_respone 200  == OK
     if resp.status_code == 200:
-        print("Successfully opened the web page")
-        print("The ranking is as following:-\n")
+        print("FILII LAMBERTI schachten pledgeranking:-\n")
 
-        # we need a parser,Python built-in HTML parser is enough .
         soup = BeautifulSoup(resp.text, "html.parser")
+        html = soup.find("div", {"id": "container"})
 
-        # l is the list which contains all the text i.e news
-        l = soup.find("table")
+        score = 0
+        for schacht in schachten:
+            for i in html.findAll("a"):
+                score += i.text.lower().count(schacht.lower())
+            print(schacht + ": " + str(score))
+            score = 0
 
-        # now we want to print only the text part of the anchor.
-        # find all the elements of a, i.e anchor
-        for i in l.findAll("a"):
-            print(i.text)
     else:
         print("Error")
 
